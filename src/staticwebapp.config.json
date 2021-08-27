@@ -47,22 +47,22 @@
       ]
     },
     {
+      "name": "defaultImages",
       "route": "/*.{png,jpg,gif,svg}",
       "headers": {
         "Cache-Control": "public, max-age=604800, immutable"
       },
       "allowedRoles": [
         "administrator",
-        "tuyen_foundation",
-        "github_placeholder_role"
+        "tuyen_foundation"
       ]
     },
     {
+      "name": "default",
       "route": "/*",
       "allowedRoles": [
         "administrator",
-        "tuyen_foundation",
-        "github_placeholder_role"
+        "tuyen_foundation"
       ]
     }
   ],
