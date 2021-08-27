@@ -13,7 +13,7 @@
     const path = window.location.pathname;
     if (path.toLowerCase() !== '/401.html') {
       let encodedPath = encodeURIComponent(window.location.href);
-      window.location.href = '/.auth/login/github??post_login_redirect_uri=' + encodedPath;
+      window.location.href = '/.auth/login/github?post_login_redirect_uri=' + encodedPath;
     }
   </script>
 </body>
