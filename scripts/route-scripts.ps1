@@ -1,28 +1,52 @@
+$ErrorActionPreference = "Stop"
+
 $azureStaticWebAppconfigPath = './src/staticwebapp.config.json'
 $azureStaticWebAppconfig = Get-Content -LiteralPath $azureStaticWebAppconfigPath | ConvertFrom-Json
 # $roleName = 'optimizely_es'
 
-function Add-AzureStaticWebAppRouteRole($routes, $routeName, $roleName) {
-  $route = $routes | Where-Object { $_.name -eq $routeName }
+function Get-AzureStaticWebAppRoute($routeName) {
+  return $azureStaticWebAppconfig.routes | Where-Object { $_.name -eq $routeName }
+}
+
+function Add-AzureStaticWebAppRouteRole($routeName, $roleName) {
+  $route = $azureStaticWebAppconfig.routes | Where-Object { $_.name -eq $routeName }
   if ($route) {
     $route.allowedRoles += $roleName
   }
 }
 
-function Remove-AzureStaticWebAppRouteNames($routes) {
-  $routes | ForEach-Object {
+function Remove-AzureStaticWebAppRouteNames() {
+  $azureStaticWebAppconfig.routes | ForEach-Object {
     if ($_.name) {
       $_.PSObject.Properties.Remove('name')
     }
   }
 }
 
+function Add-AdditionalAzureStaticWebAppRoutesFromPath($path) {
+  $config = Get-Content -LiteralPath $path | ConvertFrom-Json
+  $azureStaticWebAppconfig.routes += $config.routes;
+}
+
+function Add-GlobalAzureStaticWebAppRoutes($path) {
+  $azureStaticWebAppconfig.routes += $azureStaticWebAppconfig.defaultRoutes;
+
+  $azureStaticWebAppconfig.PSObject.Properties.Remove('defaultRoutes')
+}
+
 function Set-AzureStaticWebAppConfig() {
+  $isDefaultRouteExist = Get-AzureStaticWebAppRoute -routeName 'default'
+  if (!$isDefaultRouteExist) {
+    throw "Default route is not added."
+  }
+
+  Remove-AzureStaticWebAppRouteNames($azureStaticWebAppconfig.routes)
   $azureStaticWebAppconfig | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $azureStaticWebAppconfigPath
 }
 
-# Add-AzureStaticWebAppRouteRole -routes $azureStaticWebAppconfig.routes -routeName 'default' -roleName $roleName
-# Add-AzureStaticWebAppRouteRole -routes $azureStaticWebAppconfig.routes -routeName 'defaultImages' -roleName $roleName
-# Remove-AzureStaticWebAppRouteNames($azureStaticWebAppconfig.routes)
+# Add-AzureStaticWebAppRouteRole -routeName 'default' -roleName $roleName
+# Add-AzureStaticWebAppRouteRole -routeName 'defaultImages' -roleName $roleName
+# Remove-AzureStaticWebAppRouteNames()
+# Add-AdditionalRoutesFromPath -path './src/additional-routes.json'
 
 # Set-AzureStaticWebAppConfig

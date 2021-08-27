@@ -45,7 +45,9 @@
       "allowedRoles": [
         "anonymous"
       ]
-    },
+    }
+  ],
+  "globalRoutes": [
     {
       "name": "defaultImages",
       "route": "/*.{png,jpg,gif,svg}",
