@@ -28,10 +28,10 @@ function Add-AdditionalAzureStaticWebAppRoutesFromPath($path) {
   $azureStaticWebAppconfig.routes += $config.routes;
 }
 
-function Add-GlobalAzureStaticWebAppRoutes($path) {
-  $azureStaticWebAppconfig.routes += $azureStaticWebAppconfig.defaultRoutes;
+function Add-GlobalAzureStaticWebAppRoutes() {
+  $azureStaticWebAppconfig.routes += $azureStaticWebAppconfig.globalRoutes;
 
-  $azureStaticWebAppconfig.PSObject.Properties.Remove('defaultRoutes')
+  $azureStaticWebAppconfig.PSObject.Properties.Remove('globalRoutes')
 }
 
 function Set-AzureStaticWebAppConfig() {
@@ -44,9 +44,9 @@ function Set-AzureStaticWebAppConfig() {
   $azureStaticWebAppconfig | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $azureStaticWebAppconfigPath
 }
 
+# Add-AdditionalAzureStaticWebAppRoutesFromPath -path './src/additional-routes.json'
+# Add-GlobalAzureStaticWebAppRoutes
 # Add-AzureStaticWebAppRouteRole -routeName 'default' -roleName $roleName
 # Add-AzureStaticWebAppRouteRole -routeName 'defaultImages' -roleName $roleName
-# Remove-AzureStaticWebAppRouteNames()
-# Add-AdditionalRoutesFromPath -path './src/additional-routes.json'
 
 # Set-AzureStaticWebAppConfig
