@@ -1,0 +1,90 @@
+{
+  "routes": [
+    {
+      "route": "/login",
+      "rewrite": "/.auth/login/github",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/.auth/login/aad",
+      "statusCode": 404,
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/.auth/login/twitter",
+      "statusCode": 404,
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/logout",
+      "redirect": "/.auth/logout",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/favicon.*",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/40{0,1,2,3,4}.html",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/__images__/*",
+      "allowedRoles": [
+        "anonymous"
+      ]
+    },
+    {
+      "route": "/*.{png,jpg,gif,svg}",
+      "headers": {
+        "Cache-Control": "public, max-age=604800, immutable"
+      },
+      "allowedRoles": [
+        "administrator",
+        "tuyen_foundation",
+        "github_placeholder_role"
+      ]
+    },
+    {
+      "route": "/*",
+      "allowedRoles": [
+        "administrator",
+        "tuyen_foundation",
+        "github_placeholder_role"
+      ]
+    }
+  ],
+  "responseOverrides": {
+    "400": {
+      "rewrite": "/400.html"
+    },
+    "401": {
+      "redirect": "/login",
+      "rewrite": "/401.html"
+    },
+    "403": {
+      "rewrite": "/403.html"
+    },
+    "404": {
+      "rewrite": "/404.html"
+    }
+  },
+  "globalHeaders": {
+    "content-security-policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
+  },
+  "mimeTypes": {
+    ".json": "text/json"
+  }
+}
