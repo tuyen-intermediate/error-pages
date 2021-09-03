@@ -1,4 +1,6 @@
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = 'Stop'
+$anonymousRole = 'anonymous'
+$authenticatedRole = 'authenticated'
 
 $azureStaticWebAppconfigPath = './src/staticwebapp.config.json'
 $azureStaticWebAppconfig = Get-Content -LiteralPath $azureStaticWebAppconfigPath | ConvertFrom-Json
