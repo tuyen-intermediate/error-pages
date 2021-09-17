@@ -13,8 +13,12 @@ function Get-AzureStaticWebAppRoute($routeName) {
 function Add-AzureStaticWebAppRouteRole($routeName, $roleName) {
   $route = $azureStaticWebAppconfig.routes | Where-Object { $_.name -eq $routeName }
   if ($route) {
-    $route.allowedRoles += $roleName
+    if ($route.allowedRoles.Contains($roleName)) {
+      $route.allowedRoles += $roleName
+      return
+    }
   }
+  throw "Cannot found route '$routeName'"
 }
 
 function Remove-AzureStaticWebAppRouteNames() {
