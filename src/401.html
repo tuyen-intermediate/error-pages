@@ -15,6 +15,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get('redirectUrl');
       let encodedPath = encodeURIComponent(redirectUrl ? redirectUrl : window.location.href);
+      let authProvider = localStorage.getItem('auth_provider');
       if (!authProvider) {
         authProvider = 'github';
       }
