@@ -15,7 +15,10 @@
       const urlParams = new URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get('redirectUrl');
       let encodedPath = encodeURIComponent(redirectUrl ? redirectUrl : window.location.href);
-      window.location.href = '/.auth/login/github?post_login_redirect_uri=' + encodedPath;
+      if (!authProvider) {
+        authProvider = 'github';
+      }
+      window.location.href = '/.auth/login/' + authProvider + '?post_login_redirect_uri=' + encodedPath;
     }
   </script>
 </body>
